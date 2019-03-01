@@ -2,6 +2,7 @@ import ChatMessage from "../../chatmessage";
 import Client from "../../client";
 import TerrariaServer from "../../terrariaserver";
 import Extension from "../extension";
+import Utils from "../antiname/utils";
 
 interface SpamMessage {
     text: string;
@@ -133,8 +134,8 @@ class AntiSpam extends Extension {
     }
 
     private checkCapitals(): boolean {
-        const capitals = AntiSpam.countCapitals(this._currentChatMessage.content);
-        const capitalRatio = capitals / AntiSpam.countLetters(this._currentChatMessage.content);
+        const capitals = Utils.countCapitals(this._currentChatMessage.content);
+        const capitalRatio = capitals / Utils.countLetters(this._currentChatMessage.content);
         if (capitalRatio > this._maxCapRatio) {
             this._currentClient.sendChatMessage(`That message contained too many capitals letters. `
                 + `${capitalRatio * 100}% caps when maximum allowed is ${this._maxCapRatio * 100}%`, {
@@ -212,31 +213,6 @@ class AntiSpam extends Extension {
         return false;
     }
 
-    public static countCapitals(text: string): number {
-        let capitals = 0;
-        for (const c of text) {
-            if (parseInt(c).toString() !== c && c === c.toUpperCase() && c !== c.toLowerCase()) {
-                capitals++;
-            }
-        }
-
-        return capitals;
-    }
-
-    public static countLetters(text: string): number {
-        let letters = 0;
-        for (const c of text) {
-            if (AntiSpam.isLetter(c)) {
-                letters++;
-            }
-        }
-
-        return letters;
-    }
-
-    public static isLetter(text) {
-         return /[A-z]/.test(text);
-    }
 }
 
 export default AntiSpam;
