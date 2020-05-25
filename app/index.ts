@@ -29,6 +29,10 @@ class AntiSpam extends Extension {
     private _currentTrack: SpamTrack;
     private _currentChatMessage: ChatMessage;
     public static terrariaVersions = [
+        "1.4.2.0",
+        "1.4.1.9",
+        "1.4.1.8",
+        "1.4.1.7",
         "1.4.1.6",
         "1.4.1.5",
         "1.4.1.4",
@@ -36,6 +40,9 @@ class AntiSpam extends Extension {
         "1.4.1.2",
         "1.4.1.1",
         "1.4.1.0",
+        "1.4.0.9",
+        "1.4.0.8",
+        "1.4.0.7",
         "1.4.0.6",
         "1.4.0.5",
         "1.4.0.4",
