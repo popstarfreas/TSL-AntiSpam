@@ -25,6 +25,7 @@ class AntiSpam extends Extension {
     private _maxRepetitionTime = 40000;
     private _maxGeneralSpamScore = 3450;
     private _ipRegex = /((?:[0-9]{1,3}(\.|,)){3}[0-9]{1,3})/g;
+    private _knownServersIpRegex = /terraria\.one|pedguin\.com|t\.teeria\.eu|s\.terraz\.ru|t\.aurora-gaming\.com|terraria\.tk|yamahi\.eu/g;
     private _currentClient: Client;
     private _currentTrack: SpamTrack;
     private _currentChatMessage: ChatMessage;
@@ -132,7 +133,7 @@ class AntiSpam extends Extension {
         if (violates) {
             let violations = 0;
             let ips = "";
-            const matches = this._currentChatMessage.content.match(this._ipRegex) as RegExpMatchArray;
+            let matches = this._currentChatMessage.content.match(this._ipRegex) as RegExpMatchArray;
             for (const match of matches) {
                 if (AntiSpam.terrariaVersions.indexOf(match) === -1) {
                     if (ips.length > 0) {
@@ -142,6 +143,16 @@ class AntiSpam extends Extension {
                     violations++;
                     break;
                 }
+            }
+
+            matches = this._currentChatMessage.content.match(this._knownServersIpRegex) as RegExpMatchArray;
+            for (const match of matches) {
+                if (ips.length > 0) {
+                    ips += ", ";
+                }
+                ips += match;
+                violations++;
+                break;
             }
 
             if (violations > 0) {
