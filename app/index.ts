@@ -15,7 +15,7 @@ interface SpamTrack {
 
 class AntiSpam extends Extension {
     public name = "AntiSpam";
-    public version = "v1.0";
+    public version = "v1.1";
     public spamTracking = new Map<Client, SpamTrack>();
     private _maxCapRatio = 0.7;
     private _maxShortMessages = 2;
