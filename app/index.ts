@@ -145,7 +145,7 @@ class AntiSpam extends Extension {
             }
 
             if (violations > 0) {
-                this._currentClient.server.banManager.ban(this._currentClient, "Advertising");
+                this._currentClient.server.banManager.banClient(this._currentClient, `Advertising ${ips}`);
                 console.log(`${this._currentClient.player.name} used ${ips}`);
             } else {
                 violates = false;
