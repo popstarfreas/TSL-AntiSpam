@@ -3,6 +3,7 @@ import Client from "terrariaserver-lite/client";
 import TerrariaServer from "terrariaserver-lite/terrariaserver";
 import Extension from "terrariaserver-lite/extensions/extension";
 import Utils from "./utils";
+import { versions } from "./terrariaVersions"
 
 interface SpamMessage {
     text: string;
@@ -15,7 +16,7 @@ interface SpamTrack {
 
 class AntiSpam extends Extension {
     public name = "AntiSpam";
-    public version = "v1.1";
+    public version = "v1.2";
     public spamTracking = new Map<Client, SpamTrack>();
     private _maxCapRatio = 0.7;
     private _maxShortMessages = 2;
@@ -29,57 +30,7 @@ class AntiSpam extends Extension {
     private _currentClient: Client;
     private _currentTrack: SpamTrack;
     private _currentChatMessage: ChatMessage;
-    public static terrariaVersions = [
-        "1.4.2.0",
-        "1.4.1.9",
-        "1.4.1.8",
-        "1.4.1.7",
-        "1.4.1.6",
-        "1.4.1.5",
-        "1.4.1.4",
-        "1.4.1.3",
-        "1.4.1.2",
-        "1.4.1.1",
-        "1.4.1.0",
-        "1.4.0.9",
-        "1.4.0.8",
-        "1.4.0.7",
-        "1.4.0.6",
-        "1.4.0.5",
-        "1.4.0.4",
-        "1.4.0.3",
-        "1.4.0.2",
-        "1.4.0.1",
-        "1.4.0.0",
-        "1.3.5.3",
-        "1.3.5.2",
-        "1.3.5.1",
-        "1.3.4.4",
-        "1.3.4.3",
-        "1.3.4.2",
-        "1.3.4.1",
-        "1.3.3.3",
-        "1.3.3.2",
-        "1.3.3.1",
-        "1.3.2.1",
-        "1.3.1.1",
-        "1.3.0.8",
-        "1.3.0.7",
-        "1.3.0.6",
-        "1.3.0.5",
-        "1.3.0.4",
-        "1.3.0.3",
-        "1.3.0.2",
-        "1.3.0.1",
-        "1.2.4.1",
-        "1.2.1.2",
-        "1.2.1.1",
-        "1.2.0.3",
-        "1.2.0.2",
-        "1.2.0.1",
-        "1.0.6.1",
-        "1.0.6.0"
-    ];
+    public static terrariaVersions = versions
 
     constructor(server: TerrariaServer) {
         super(server);
@@ -156,7 +107,26 @@ class AntiSpam extends Extension {
             }
 
             if (violations > 0) {
-                this._currentClient.server.banManager.banClient(this._currentClient, `Advertising ${ips}`);
+                this._currentClient.server.banManager.banClient(
+                    this._currentClient,
+                    `Advertising ${ips} in "${this._currentChatMessage.content}"`,
+                    {
+                        id: 73026,
+                        uuid: "",
+                        group: {
+                            name: "",
+                            prefix: "",
+                            suffix: "",
+                            color: "",
+                            permissions: "",
+                            parent: null,
+                            parentName: "",
+                        },
+                        name: "System",
+                        registerDate: 0,
+                        knownIps: [],
+                    }
+                );
                 console.log(`${this._currentClient.player.name} used ${ips}`);
             } else {
                 violates = false;
