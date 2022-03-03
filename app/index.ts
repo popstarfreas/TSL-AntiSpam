@@ -3,7 +3,6 @@ import Client from "terrariaserver-lite/client";
 import TerrariaServer from "terrariaserver-lite/terrariaserver";
 import Extension from "terrariaserver-lite/extensions/extension";
 import Utils from "./utils";
-import { versions } from "./terrariaVersions"
 
 interface SpamMessage {
     text: string;
@@ -30,7 +29,6 @@ class AntiSpam extends Extension {
     private _currentClient: Client;
     private _currentTrack: SpamTrack;
     private _currentChatMessage: ChatMessage;
-    public static terrariaVersions = versions
 
     constructor(server: TerrariaServer) {
         super(server);
@@ -96,7 +94,7 @@ class AntiSpam extends Extension {
             let ips = "";
             let matches = this._currentChatMessage.content.match(this._ipRegex) as RegExpMatchArray;
             for (const match of matches) {
-                if (AntiSpam.terrariaVersions.indexOf(match) === -1) {
+                if (!match.startsWith("1.") && !match.startsWith("2.") && !match.startsWith("3.")) {
                     if (ips.length > 0) {
                         ips += ", ";
                     }
