@@ -44,7 +44,7 @@ class AntiSpam extends Extension {
         this._currentClient = client;
         this._currentChatMessage = chatMessage;
 
-        if (chatMessage.content.length > 0 && (this.chatViolates() || this.checkPostedIp())) {
+        if (chatMessage.content.length > 0 && (this.chatViolates() || this.checkPostedIp() || this.checkPostedRacism())) {
             // Clear content to avoid it being sent out in server chat
             chatMessage.content = "";
         }
@@ -77,6 +77,16 @@ class AntiSpam extends Extension {
         }
 
         return violates;
+    }
+
+    private checkPostedRacism() {
+        const message = this._currentChatMessage.content;
+        if (message.indexOf("niggers") >= 0) {
+            this._currentClient.server.banManager.banClient(this._currentClient, `S1#4 Racism/Discrimination: ${message}`);
+            return true;
+        }
+
+        return false;
     }
 
     private checkPostedIp(): boolean {
