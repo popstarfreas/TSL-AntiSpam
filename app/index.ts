@@ -78,9 +78,19 @@ class AntiSpam extends Extension {
     }
 
     private checkPostedRacism() {
-        const message = this._currentChatMessage.content;
-        if (message.indexOf("niggers") >= 0) {
+        const message = this._currentChatMessage.content.toLowerCase();
+        if (message.indexOf("nigger") >= 0) {
             this._currentClient.server.banManager.banClient(this._currentClient, `S1#4 Racism/Discrimination: ${message}`);
+            return true;
+        }
+
+        if (message.indexOf("nigga") >= 0) {
+            this._currentClient.sendChatMessage(`That message contained words that violate the rules. If you try to bypass this automated check, you will be banned.`,
+              {
+                R: 255,
+                G: 0,
+                B: 0
+              });
             return true;
         }
 
