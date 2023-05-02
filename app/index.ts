@@ -236,7 +236,7 @@ class AntiSpam extends Extension {
         to block spam of over 3 consecutive same punctuation
         instead of only blocking over 3 repeated word characters
         */
-        this._currentChatMessage.content = this._currentChatMessage.content.replace(/([a-zA-Z])\1{3,}|([0-9])\2{4,}|([!-\/:-@\[-`{-~])\3{3,}/ig, "$1$1$2$2$2$2$3");
+        this._currentChatMessage.content = this._currentChatMessage.content.replace(/([a-zA-Z])\1{3,}|([0-9])\2{4,}|([!-\/:-@\[-`{-~])\3{3,}/ig, "$1$1$1$2$2$2$2$3");
         return false;
     }
 
