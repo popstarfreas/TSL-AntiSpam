@@ -232,7 +232,7 @@ class AntiSpam extends Extension {
     private trimRepeatedLetters(): boolean {
         /*
         To reach consistency between TSL and TShock the repeated character filter has been adjusted as well
-        to allow 4 same digits in a row ([i:4444] and 9999 pass) and 
+        to allow 4 same digits in a row ([i:4444] and 9999 pass) and
         to block spam of over 3 consecutive same punctuation
         instead of only blocking over 3 repeated word characters
         Now also blocking consecutive non-ASCII letter spam
