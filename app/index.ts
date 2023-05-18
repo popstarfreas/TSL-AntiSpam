@@ -230,7 +230,14 @@ class AntiSpam extends Extension {
     }
 
     private trimRepeatedLetters(): boolean {
-        this._currentChatMessage.content = this._currentChatMessage.content.replace(/(.)\1{3,}/ig, "$1$1");
+        /*
+        To reach consistency between TSL and TShock the repeated character filter has been adjusted as well
+        to allow 4 same digits in a row ([i:4444] and 9999 pass) and
+        to block spam of over 3 consecutive same punctuation
+        instead of only blocking over 3 repeated word characters
+        Now also blocking consecutive non-ASCII letter spam
+        */
+        this._currentChatMessage.content = this._currentChatMessage.content.replace(/(\d)\1{4,}|([^\d])\2{3,}/ig, "$1$1$1$1$2$2$2");
         return false;
     }
 
