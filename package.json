@@ -1,5 +1,6 @@
 {
   "name": "antispam",
+  "type": "module",
   "version": "1.1.0",
   "description": "",
   "scripts": {
@@ -9,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.6.0",
-    "terrariaserver-lite": "./TerrariaServer-Lite/pluginreference",
+    "terrariaserver-lite": "./TerrariaServer-Lite",
     "typescript": "^5.2.2"
   }
 }

@@ -2,7 +2,7 @@ import ChatMessage from "terrariaserver-lite/chatmessage";
 import Client from "terrariaserver-lite/client";
 import TerrariaServer from "terrariaserver-lite/terrariaserver";
 import Extension from "terrariaserver-lite/extensions/extension";
-import Utils from "./utils";
+import Utils from "./utils.js";
 
 interface SpamMessage {
     text: string;
@@ -86,11 +86,11 @@ class AntiSpam extends Extension {
 
         if (message.indexOf("nigga") >= 0) {
             this._currentClient.sendChatMessage(`That message contained words that violate the rules. If you try to bypass this automated check, you will be banned.`,
-              {
-                R: 255,
-                G: 0,
-                B: 0
-              });
+                {
+                    R: 255,
+                    G: 0,
+                    B: 0
+                });
             return true;
         }
 
@@ -160,10 +160,10 @@ class AntiSpam extends Extension {
         if (capitalRatio > this._maxCapRatio) {
             this._currentClient.sendChatMessage(`That message contained too many capitals letters. `
                 + `${capitalRatio * 100}% caps when maximum allowed is ${this._maxCapRatio * 100}%`, {
-                    R: 255,
-                    G: 0,
-                    B: 0
-                });
+                R: 255,
+                G: 0,
+                B: 0
+            });
 
             return true;
         }
@@ -181,10 +181,10 @@ class AntiSpam extends Extension {
 
         if (shortMessages > this._maxShortMessages) {
             this._currentClient.sendChatMessage(`You have spammed too many short messages.`, {
-                    R: 255,
-                    G: 0,
-                    B: 0
-                });
+                R: 255,
+                G: 0,
+                B: 0
+            });
 
             return true;
         }

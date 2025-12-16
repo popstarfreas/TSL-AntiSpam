@@ -1,28 +1,14 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2017",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "es2020",
         "noImplicitAny": false,
         "sourceMap": false,
-	    "outDir": "build",
+        "outDir": "build",
         "strictNullChecks": true
     },
     "include": [
         "app/**/*",
-    ],
-    "exclude": [
-        "app/extensions/antiname/**/*",
-        "app/extensions/antispam/**/*",
-        "app/extensions/autobroadcast/**/*",
-        "app/extensions/badges/**/*",
-        "app/extensions/phase/**/*",
-        "app/extensions/phasebot/**/*",
-        "app/extensions/terrariafortress/**/*",
-        "app/extensions/tradingsystem/**/*",
-        "app/extensions/warpplates/**/*",
-        "app/extensions/worldregen/**/*",
-        "app/extensions/valleywars/**/*",
-        "app/extensions/cycle/**/*",
-        "app/extensions/extraposim/**/*"
     ]
 }
