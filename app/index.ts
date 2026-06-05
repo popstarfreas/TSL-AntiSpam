@@ -98,31 +98,55 @@ class AntiSpam extends Extension {
     }
 
     private checkPostedIp(): boolean {
-        let violates = this._ipRegex.test(this._currentChatMessage.content);
-        if (violates) {
-            let violations = 0;
-            let ips = "";
+        let violates = false;
+        let violations = 0;
+        let ips = "";
+        
+        /* Main changes of the TSL IP filter code:
+        1. Divided the check against IPv4s and known server link IPs into two separate checks 
+        because if a text doesn't have both an IPv4 and a server link
+        at least one of the two RegExpMatchArray objects 
+        (one for IPv4s and one for server links) would be null,
+        because there is nothing to check further
+        
+        2. Added an analysis whether in the substring that looks like an IPv4
+        one or more of the blocks have values of greater than 255 thus making the IPv4 invalid
+        e. g.: 127.0.0.1 => Ban; 314.159.265.358 => Pass as that is an invalid IPv4.
+        */
+        
+        let hasIPv4 = this._ipRegex.test(this._currentChatMessage.content);
+        
+        if (hasIPv4) {
             let matches = this._currentChatMessage.content.match(this._ipRegex) as RegExpMatchArray;
             for (const match of matches) {
-                if (!match.startsWith("1.") && !match.startsWith("2.") && !match.startsWith("3.")) {
+                let ipBlockValues = match.split('.');
+                
+                let hasBlockOutOfRangeForIP = ipBlockValues.some(s => parseInt(s)>255);
+                
+                if (!match.startsWith("1.") && !match.startsWith("2.") && !match.startsWith("3.") && !hasBlockOutOfRangeForIP) {
                     if (ips.length > 0) {
                         ips += ", ";
                     }
                     ips += match;
                     violations++;
-                    break;
+                    violates = true;
                 }
             }
-
-            matches = this._currentChatMessage.content.match(this._knownServersIpRegex) as RegExpMatchArray;
+        }
+        
+        let hasKnownServerLink = this._knownServersIpRegex.test(this._currentChatMessage.content);
+        if(hasKnownServerLink){
+            let matches = this._currentChatMessage.content.match(this._knownServersIpRegex) as RegExpMatchArray;
             for (const match of matches) {
                 if (ips.length > 0) {
                     ips += ", ";
                 }
                 ips += match;
                 violations++;
+                violates = true;
                 break;
             }
+        }
 
             if (violations > 0) {
                 this._currentClient.server.banManager.banClient(
@@ -149,7 +173,7 @@ class AntiSpam extends Extension {
             } else {
                 violates = false;
             }
-        }
+
 
         return violates;
     }
